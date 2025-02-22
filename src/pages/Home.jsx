@@ -14,6 +14,29 @@ const services = [
   { icon: Users, title: 'UGC Content', description: 'Harness the power of user-generated content' }
 ];
 
+const projects = [
+  { 
+    image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80', 
+    title: 'Digital Campaign',
+    category: 'Marketing'
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80', 
+    title: 'Brand Strategy',
+    category: 'Branding'
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80', 
+    title: 'Social Media',
+    category: 'Content'
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80', 
+    title: 'Web Design',
+    category: 'Development'
+  }
+];
+
 const Home = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -82,12 +105,66 @@ const Home = () => {
                 to turn your vision into reality, scaling your business to new heights.
               </p>
             </div>
-            <div className="lg:w-1/2 flex justify-center items-center">
+            <div className="lg:w-1/2 flex justify-center items-center mt-14">
               <img 
                 src={fusion}
                 alt="Fusion Logo" 
-                className="w-72 h-auto"
+                className="w-100 h-80"
               />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section className="overflow-hidden py-20 bg-gray-50">
+        <div className="w-full mt-20">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Our Projects</h2>
+          <div className="relative flex overflow-x-hidden">
+            <div className="flex animate-scroll gap-8 py-12">
+              {[...projects, ...projects, ...projects, ...projects].map((project, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-[400px] h-[500px] rounded-3xl overflow-hidden relative group shadow-2xl"
+                  style={{
+                    transform: 'rotate(-3deg)',
+                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                  }}
+                >
+                  <style jsx>{`
+                    @keyframes scroll {
+                      0% {
+                        transform: translateX(0);
+                      }
+                      100% {
+                        transform: translateX(calc(-50% - 2rem));
+                      }
+                    }
+                    .animate-scroll {
+                      animation: scroll 30s linear infinite;
+                    }
+                    .pause:hover {
+                      animation-play-state: paused;
+                    }
+                    .group:hover {
+                      transform: rotate(0deg) scale(1.05) !important;
+                      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                      z-index: 10;
+                    }
+                  `}</style>
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-all duration-500 ease-out group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <div className="absolute bottom-0 left-0 p-8 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                      <p className="text-sm font-medium mb-3 opacity-80">{project.category}</p>
+                      <h3 className="text-2xl font-bold">{project.title}</h3>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
