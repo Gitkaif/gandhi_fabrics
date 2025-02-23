@@ -3,12 +3,31 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Briefcase, Palette, Share2, Monitor, Megaphone, Video, Users } from 'lucide-react';
 import fusion from '../assets/fusion-logo.png';
+import { Link } from 'react-router-dom';
 
 const services = [
-  { icon: Briefcase, title: 'Branding & Marketing', description: 'Build your brand identity and market presence' },
-  { icon: Share2, title: 'Social Media & Content', description: 'Engage your audience across platforms' },
-  { icon: Palette, title: 'Graphic Design', description: 'Create stunning visuals that capture attention' },
-  { icon: Megaphone, title: 'Event Marketing', description: 'Make your events memorable and impactful' },
+  { 
+    icon: Briefcase, 
+    title: 'Branding & Marketing', 
+    description: 'Build your brand identity and market presence',
+    path: '/services/branding'
+  },
+  { 
+    icon: Share2, 
+    title: 'Social Media & Content', 
+    description: 'Engage your audience across platforms',
+    path: '/services/social-media'
+  },
+  { 
+    icon: Palette, 
+    title: 'Graphic Design', 
+    description: 'Create stunning visuals that capture attention',
+    path: '/services/design'
+  },
+  { 
+    icon: Megaphone, 
+    title: 'Event Marketing', 
+    description: 'Make your events memorable and impactful' },
   { icon: Monitor, title: 'Website Services', description: 'Develop powerful digital experiences' },
   { icon: Video, title: 'OOH & DOOH', description: 'Reach audiences with outdoor advertising' },
   { icon: Users, title: 'UGC Content', description: 'Harness the power of user-generated content' }
@@ -89,7 +108,7 @@ const Home = () => {
       </motion.section>
 
       {/* About Us Section */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="lg:w-1/2">
@@ -106,10 +125,23 @@ const Home = () => {
               </p>
             </div>
             <div className="lg:w-1/2 flex justify-center items-center mt-14">
-              <img 
+              <motion.img 
                 src={fusion}
                 alt="Fusion Logo" 
                 className="w-100 h-80"
+                animate={{
+                  y: [0, -20, 0],
+                  rotate: [-2, 2, -2],
+                }}
+                transition={{
+                  duration: 6,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  transition: { duration: 0.3 }
+                }}
               />
             </div>
           </div>
@@ -171,34 +203,59 @@ const Home = () => {
       </section>
 
       {/* Services Section */}
-      <section ref={ref} className="py-20 px-4">
+      <section ref={ref} className="py-20 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <motion.h2
             initial={{ y: 20, opacity: 0 }}
             animate={inView ? { y: 0, opacity: 1 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-bold text-center mb-16"
+            className="text-[5rem] md:text-[3rem] font-bold mb-6 text-center"
           >
-            Our Services
+            OUR EXPERTISE
           </motion.h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-20">
             {services.map((service, index) => (
-              <motion.div
+              <Link 
+                to={service.path} 
                 key={index}
-                initial={{ y: 20, opacity: 0 }}
-                animate={inView ? { y: 0, opacity: 1 } : {}}
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
-                }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-gray-50 p-6 rounded-lg hover:bg-gray-100 transition-colors"
+                className="no-underline"
               >
-                <service.icon className="h-12 w-12 mb-4 text-gray-900" />
-                <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                <p className="text-gray-600">{service.description}</p>
-              </motion.div>
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={inView ? { y: 0, opacity: 1 } : {}}
+                  transition={{ delay: index * 0.1 }}
+                  className="relative group cursor-pointer"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl 
+                    transform transition-all duration-300 group-hover:scale-105 group-hover:rotate-2" />
+                  <div className="relative bg-white p-8 rounded-2xl transform transition-all duration-300 
+                    group-hover:-translate-y-2 group-hover:-translate-x-2 h-full">
+                    <div className="absolute -top-8 left-4">
+                      <motion.div
+                        className="bg-white p-4 rounded-xl shadow-lg"
+                        whileHover={{ rotate: [0, -10, 10, 0], transition: { duration: 0.5 } }}
+                      >
+                        <service.icon className="h-8 w-8 text-gray-900" />
+                      </motion.div>
+                    </div>
+                    <div className="pt-6">
+                      <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-600 
+                        bg-clip-text text-transparent">{service.title}</h3>
+                      <p className="text-gray-600 leading-relaxed">{service.description}</p>
+                    </div>
+                    <motion.div
+                      className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center"
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <div className="text-gray-400 transform transition-transform group-hover:translate-x-1">
+                        →
+                      </div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>
