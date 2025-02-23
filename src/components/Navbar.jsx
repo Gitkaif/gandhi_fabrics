@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Briefcase, ChevronDown } from 'lucide-react';
+import { Menu, X, Briefcase, ChevronDown, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import fusion from '../assets/fusion-logo.png';
 
@@ -17,6 +17,21 @@ const services = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const profileCardRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileCardRef.current && !profileCardRef.current.contains(event.target)) {
+        const menuButton = document.querySelector('[aria-label="Menu"]');
+        if (!menuButton?.contains(event.target)) {
+          setIsOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <nav className="fixed w-screen bg-white/90 backdrop-blur-sm z-50 shadow-lg">
@@ -24,7 +39,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-14 md:h-16">
           {/* Logo - Left */}
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex items-center space-x-0 pl-3">
+            <Link to="/" className="flex items-center space-x-0 pl-3 mt-4">
               <img src={fusion} alt="Fusion" className="h-36 w-46" />
             </Link>
           </div>
@@ -163,48 +178,62 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute right-2 top-16 w-80 bg-white rounded-lg shadow-xl z-50 hidden md:block"
+            ref={profileCardRef}
+            initial={{ opacity: 0, scale: 0.95, y: -20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute right-2 top-16 w-96 bg-white rounded-lg shadow-xl z-50 hidden md:block"
           >
-            <div className="p-6">
+            <div className="p-8">
               {/* Company Logo */}
-              <div className="flex justify-center mb-4">
-                <img src={fusion} alt="Fusion" className="h-20 w-auto" />
+              <div className="flex justify-center mb-0">
+                <img src={fusion} alt="Fusion" className="h-48 w-auto" />
               </div>
               
               {/* Company Info */}
-              <div className="text-center">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Fusion Media
-                </h3>
-                <div className="text-gray-600 space-y-2">
-                  <p className="text-sm">
-                    123 Business Avenue
-                  </p>
-                  <p className="text-sm">
-                    Suite 456, Floor 7
-                  </p>
-                  <p className="text-sm">
-                    New York, NY 10001
-                  </p>
-                  <p className="text-sm mt-4">
-                    Phone: (555) 123-4567
-                  </p>
-                  <p className="text-sm">
-                    Email: contact@fusionmedia.com
-                  </p>
+              <div className="text-center mb-4">
+                <p className="text-gray-600 text-sm mb-6">
+                  We are a full-service creative agency specializing in helping brands grow fast.
+                  Engage your clients through compelling visuals that do most of the marketing for you.
+                </p>
+              </div>
+
+              {/* Contact Details */}
+              <div className="space-y-4">
+                <a href="mailto:info@fusionmedias.in" 
+                  className="flex items-center space-x-3 text-gray-600 hover:text-gray-900 transition-colors">
+                  <Mail className="h-5 w-5" />
+                  <span className="text-sm">info@fusionmedias.in</span>
+                </a>
+                <a href="tel:+918655625936"
+                  className="flex items-center space-x-3 text-gray-600 hover:text-gray-900 transition-colors">
+                  <Phone className="h-5 w-5" />
+                  <span className="text-sm">+91 86556 25936</span>
+                </a>
+                <div className="flex items-start space-x-3 text-gray-600">
+                  <MapPin className="h-5 w-5 mt-1" />
+                  <span className="text-sm">
+                    2nd floor, Tirupati udyog,<br />
+                    Office No, 208/209, IB Patel Rd,<br />
+                    Goregaon, Mumbai,<br />
+                    Maharashtra 400063
+                  </span>
                 </div>
               </div>
 
               {/* Social Links */}
-              <div className="flex justify-center space-x-4 mt-6">
-                <a href="#" className="text-gray-600 hover:text-gray-900">
-                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                    {/* Add your social media icons here */}
-                  </svg>
-                </a>
+              <div className="flex justify-center space-x-4 mt-6 pt-6 border-t border-gray-100">
+                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
+                  <motion.a
+                    key={index}
+                    href="#"
+                    whileHover={{ y: -3 }}
+                    className="text-gray-600 hover:text-gray-900 transition-colors"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </motion.a>
+                ))}
               </div>
             </div>
           </motion.div>

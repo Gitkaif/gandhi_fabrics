@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Briefcase, Palette, Share2, Monitor, Megaphone, Video, Users } from 'lucide-react';
+import { Briefcase, Palette, Share2, Monitor, Megaphone, Video, Users, BarChart2, Settings, Target } from 'lucide-react';
 import fusion from '../assets/fusion-logo.png';
 import { Link } from 'react-router-dom';
 
@@ -57,7 +57,27 @@ const projects = [
 ];
 
 const Home = () => {
-  const [ref, inView] = useInView({
+  const [heroRef, heroInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  const [aboutRef, aboutInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  const [projectsRef, projectsInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  const [servicesRef, servicesInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  const [whyChooseRef, whyChooseInView] = useInView({
     triggerOnce: true,
     threshold: 0.1
   });
@@ -66,8 +86,9 @@ const Home = () => {
     <div className="bg-white text-gray-900">
       {/* Hero Section */}
       <motion.section
+        ref={heroRef}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={heroInView ? { opacity: 1 } : {}}
         transition={{ duration: 1 }}
         className="min-h-screen flex items-center justify-center relative"
         style={{
@@ -84,7 +105,7 @@ const Home = () => {
             transition={{ delay: 0.2 }}
             className="text-4xl md:text-6xl font-bold mb-6 text-white"
           >
-            Transform Your Brand
+            Empowering Brands with Creativity & Strategy!
           </motion.h1>
           <motion.p
             initial={{ y: 20, opacity: 0 }}
@@ -108,7 +129,13 @@ const Home = () => {
       </motion.section>
 
       {/* About Us Section */}
-      <section className="py-20 px-4 bg-gray-50">
+      <motion.section 
+        ref={aboutRef}
+        initial={{ opacity: 0, y: 50 }}
+        animate={aboutInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+        className="py-20 px-4 bg-gray-50"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="lg:w-1/2">
@@ -146,12 +173,17 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Projects Section */}
-      <section className="overflow-hidden py-20 bg-gray-50">
+      <motion.section 
+        ref={projectsRef}
+        initial={{ opacity: 0, y: 50 }}
+        animate={projectsInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+        className="overflow-hidden py-20 bg-gray-50"
+      >
         <div className="w-full mt-20">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Our Projects</h2>
           <div className="relative flex overflow-x-hidden">
             <div className="flex animate-scroll gap-8 py-12">
               {[...projects, ...projects, ...projects, ...projects].map((project, index) => (
@@ -200,14 +232,20 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Services Section */}
-      <section ref={ref} className="py-20 px-4 bg-gray-50">
+      <motion.section 
+        ref={servicesRef}
+        initial={{ opacity: 0, y: 50 }}
+        animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }} 
+        className="py-20 px-4 bg-gray-50"
+      >
         <div className="max-w-7xl mx-auto">
           <motion.h2
             initial={{ y: 20, opacity: 0 }}
-            animate={inView ? { y: 0, opacity: 1 } : {}}
+            animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
             className="text-[5rem] md:text-[3rem] font-bold mb-6 text-center"
           >
@@ -223,7 +261,7 @@ const Home = () => {
               >
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
-                  animate={inView ? { y: 0, opacity: 1 } : {}}
+                  animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: index * 0.1 }}
                   className="relative group cursor-pointer"
                 >
@@ -259,7 +297,311 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
+
+      {/* Why Choose Us Section with Marquee */}
+      <motion.section 
+        ref={whyChooseRef}
+        initial={{ opacity: 0, y: 50 }}
+        animate={whyChooseInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }} 
+        className="py-20 bg-black text-white overflow-hidden"
+      >
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.h2
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-bold mb-16 text-center"
+          >
+            Why Choose Us?
+          </motion.h2>
+
+          {/* Marquee Text */}
+          <div className="w-full">
+            <div className="relative flex overflow-x-hidden">
+              <div className="flex animate-scroll gap-8 py-12">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="flex flex-shrink-0">
+                    <span className="flex-shrink-0 text-5xl md:text-8xl font-black mx-8 text-blue-500 font-sans">BRANDING & MARKETING</span>
+                    <span className="flex-shrink-0 text-5xl md:text-8xl font-bold mx-8 text-red-500 font-serif">SOCIAL MEDIA & CONTENT</span>
+                    <span className="flex-shrink-0 text-5xl md:text-8xl font-extrabold mx-8 text-purple-400 font-mono">GRAPHIC DESIGN</span>
+                    <span className="flex-shrink-0 text-5xl md:text-8xl font-black mx-8 text-green-400 font-sans">EVENT MARKETING</span>
+                    <span className="flex-shrink-0 text-5xl md:text-8xl font-bold mx-8 text-blue-500 font-serif">WEBSITE SERVICES</span>
+                    <span className="flex-shrink-0 text-5xl md:text-8xl font-bold mx-8 text-pink-500 font-serif">OOH & DOOH</span>
+                    <span className="flex-shrink-0 text-5xl md:text-8xl font-black mx-8 text-blue-500 font-sans">UGC CONTENT</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <style jsx>{`
+            @keyframes scroll {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(calc(-50% - 2rem));
+              }
+            }
+            .animate-scroll {
+              animation: scroll 30s linear infinite;
+            }
+            .pause:hover {
+              animation-play-state: paused;
+            }
+          `}</style>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-20">
+            {/* Industry Expertise */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="text-center"
+            >
+              <div className="flex justify-center mb-6">
+                <Briefcase className="h-12 w-12 text-blue-500" />
+              </div>
+              <h3 className="text-xl font-bold mb-4">Industry Expertise</h3>
+              <p className="text-gray-400">
+                Over a decade of experience in branding and marketing, delivering exceptional results across industries.
+              </p>
+            </motion.div>
+
+            {/* Creative & Data-Driven */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-center"
+            >
+              <div className="flex justify-center mb-6">
+                <BarChart2 className="h-12 w-12 text-purple-500" />
+              </div>
+              <h3 className="text-xl font-bold mb-4">Creative & Data-Driven</h3>
+              <p className="text-gray-400">
+                Perfect blend of creative innovation and data-driven strategies for maximum impact.
+              </p>
+            </motion.div>
+
+            {/* Customized Solutions */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-center"
+            >
+              <div className="flex justify-center mb-6">
+                <Settings className="h-12 w-12 text-green-500" />
+              </div>
+              <h3 className="text-xl font-bold mb-4">Customized Solutions</h3>
+              <p className="text-gray-400">
+                Tailored strategies designed specifically for your brand's unique needs and goals.
+              </p>
+            </motion.div>
+
+            {/* Result-Oriented */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-center"
+            >
+              <div className="flex justify-center mb-6">
+                <Target className="h-12 w-12 text-red-500" />
+              </div>
+              <h3 className="text-xl font-bold mb-4">Result-Oriented</h3>
+              <p className="text-gray-400">
+                Focused on delivering measurable success and tangible business growth.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Client Testimonials Section */}
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="py-20 bg-white"
+      >
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.h2
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-bold mb-16 text-center"
+          >
+            What Our Clients Say
+          </motion.h2>
+
+          <div className="relative">
+            <div className="flex gap-8 overflow-x-hidden">
+              <motion.div 
+                className="flex gap-8"
+                drag="x"
+                dragConstraints={{ right: 0, left: -2800 }}
+              >
+                {/* Testimonial 1 */}
+                <motion.div 
+                  className="w-[400px] bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col flex-shrink-0"
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-center mb-6">
+                    <img 
+                      src="https://randomuser.me/api/portraits/men/1.jpg" 
+                      alt="Client" 
+                      className="w-16 h-16 rounded-full object-cover mr-4"
+                    />
+                    <div>
+                      <h4 className="font-bold text-xl">John Smith</h4>
+                      <p className="text-gray-600">CEO, Tech Corp</p>
+                    </div>
+                  </div>
+                  <div className="flex mb-4 text-yellow-400">
+                    {'★'.repeat(5)}
+                  </div>
+                  <p className="text-gray-700 italic mb-4">
+                    "Fusion transformed our digital presence completely. Their strategic approach and creative solutions helped us achieve remarkable growth."
+                  </p>
+                </motion.div>
+
+                {/* Testimonial 2 */}
+                <motion.div 
+                  className="w-[400px] bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col flex-shrink-0"
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-center mb-6">
+                    <img 
+                      src="https://randomuser.me/api/portraits/women/1.jpg" 
+                      alt="Client" 
+                      className="w-16 h-16 rounded-full object-cover mr-4"
+                    />
+                    <div>
+                      <h4 className="font-bold text-xl">Sarah Johnson</h4>
+                      <p className="text-gray-600">Marketing Director, Brand Co</p>
+                    </div>
+                  </div>
+                  <div className="flex mb-4 text-yellow-400">
+                    {'★'.repeat(5)}
+                  </div>
+                  <p className="text-gray-700 italic mb-4">
+                    "The team's creativity and attention to detail is outstanding. They delivered beyond our expectations and helped us reach new audiences."
+                  </p>
+                </motion.div>
+
+                {/* Testimonial 3 */}
+                <motion.div 
+                  className="w-[400px] bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col flex-shrink-0"
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-center mb-6">
+                    <img 
+                      src="https://randomuser.me/api/portraits/men/2.jpg" 
+                      alt="Client" 
+                      className="w-16 h-16 rounded-full object-cover mr-4"
+                    />
+                    <div>
+                      <h4 className="font-bold text-xl">Michael Chen</h4>
+                      <p className="text-gray-600">Founder, StartUp Inc</p>
+                    </div>
+                  </div>
+                  <div className="flex mb-4 text-yellow-400">
+                    {'★'.repeat(5)}
+                  </div>
+                  <p className="text-gray-700 italic mb-4">
+                    "Working with Fusion has been a game-changer for our business. Their innovative strategies and dedicated team delivered exceptional results."
+                  </p>
+                </motion.div>
+
+                {/* Testimonial 4 */}
+                <motion.div 
+                  className="w-[400px] bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col flex-shrink-0"
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-center mb-6">
+                    <img 
+                      src="https://randomuser.me/api/portraits/women/2.jpg" 
+                      alt="Client" 
+                      className="w-16 h-16 rounded-full object-cover mr-4"
+                    />
+                    <div>
+                      <h4 className="font-bold text-xl">Emily Davis</h4>
+                      <p className="text-gray-600">Marketing Manager, Creative Co</p>
+                    </div>
+                  </div>
+                  <div className="flex mb-4 text-yellow-400">
+                    {'★'.repeat(5)}
+                  </div>
+                  <p className="text-gray-700 italic mb-4">
+                    "The team's ability to understand our brand's voice and translate it into impactful marketing campaigns is truly remarkable."
+                  </p>
+                </motion.div>
+
+                {/* Testimonial 5 */}
+                <motion.div 
+                  className="w-[400px] bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col flex-shrink-0"
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-center mb-6">
+                    <img 
+                      src="https://randomuser.me/api/portraits/men/3.jpg" 
+                      alt="Client" 
+                      className="w-16 h-16 rounded-full object-cover mr-4"
+                    />
+                    <div>
+                      <h4 className="font-bold text-xl">David Wilson</h4>
+                      <p className="text-gray-600">Brand Strategist, Growth Co</p>
+                    </div>
+                  </div>
+                  <div className="flex mb-4 text-yellow-400">
+                    {'★'.repeat(5)}
+                  </div>
+                  <p className="text-gray-700 italic mb-4">
+                    "Fusion's data-driven approach to marketing has helped us optimize our strategies and achieve better results."
+                  </p>
+                </motion.div>
+              </motion.div>
+            </div>
+
+            {/* Navigation Buttons */}
+            <button 
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+              onClick={() => {
+                const container = document.querySelector('.flex.gap-8.overflow-x-hidden');
+                if (container) {
+                  container.scrollBy({ left: -400, behavior: 'smooth' });
+                }
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button 
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+              onClick={() => {
+                const container = document.querySelector('.flex.gap-8.overflow-x-hidden');
+                if (container) {
+                  container.scrollBy({ left: 400, behavior: 'smooth' });
+                }
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </motion.section>
     </div>
   );
 };
