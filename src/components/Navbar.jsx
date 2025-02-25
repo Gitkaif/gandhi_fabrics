@@ -16,6 +16,7 @@ const services = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const profileCardRef = useRef(null);
 
@@ -65,7 +66,7 @@ const Navbar = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-xl py-2"
+                      className="absolute left-0 mt-2 w-64 bg-black rounded-lg shadow-xl py-2"
                       onMouseEnter={() => setIsServicesOpen(true)}
                       onMouseLeave={() => setIsServicesOpen(false)}
                     >
@@ -73,7 +74,8 @@ const Navbar = () => {
                         <Link
                           key={index}
                           to={service.path}
-                          className="block px-4 py-2 text-gray-900 hover:bg-gray-100 transition-colors font-medium"
+                          className="block px-4 py-2 text-white hover:bg-gray-800 transition-colors font-medium"
+                          onClick={() => setIsServicesOpen(false)}
                         >
                           {service.title}
                         </Link>
@@ -121,30 +123,30 @@ const Navbar = () => {
               
               {/* Services Dropdown for Mobile */}
               <div className="relative">
-                <div
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100 flex items-center justify-between"
-                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                <button
+                  className="w-full block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100 flex items-center justify-between"
+                  onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
                 >
                   <span>Services</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
-                </div>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${isMobileServicesOpen ? 'rotate-180' : ''}`} />
+                </button>
                 
                 <AnimatePresence>
-                  {isServicesOpen && (
+                  {isMobileServicesOpen && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="bg-gray-50 rounded-md mt-1"
+                      className="bg-black rounded-md mt-1 overflow-hidden"
                     >
                       {services.map((service, index) => (
                         <Link
                           key={index}
                           to={service.path}
-                          className="block px-6 py-2 text-sm text-gray-800 hover:bg-gray-100"
+                          className="block px-6 py-2 text-sm text-white hover:bg-gray-800"
                           onClick={() => {
                             setIsOpen(false);
-                            setIsServicesOpen(false);
+                            setIsMobileServicesOpen(false);
                           }}
                         >
                           {service.title}

@@ -10,38 +10,83 @@ const Branding = () => {
   });
 
   return (
-    <div className="bg-gray-900 text-white pt-16">
+    <div className="bg-black text-white min-h-screen">
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="relative h-[60vh] flex items-center justify-center"
+        className="relative min-h-[80vh] flex items-center justify-center px-4"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?auto=format&fit=crop&q=80")',
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?auto=format&fit=crop&q=80")',
           backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
         }}
       >
-        <div className="absolute inset-0 bg-black/70" />
-        <div className="relative z-10 text-center px-4">
-          <motion.h1
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-4xl md:text-6xl font-bold mb-4"
-          >
-            Branding & Marketing
-          </motion.h1>
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-xl max-w-2xl mx-auto text-gray-300"
-          >
-            Build a powerful brand that resonates with your audience
-          </motion.p>
+        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="text-center max-w-4xl mx-auto">
+            <motion.h1
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-5xl md:text-7xl font-bold mb-6 text-white"
+            >
+              Transform Your Brand into a Powerhouse!
+            </motion.h1>
+            <motion.p
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-xl md:text-2xl text-gray-300 mb-8"
+            >
+              Your brand is more than just a logo—it's an experience. We craft compelling brand strategies, unique identities, and marketing campaigns that make your business unforgettable.
+            </motion.p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-black px-10 py-4 rounded-full text-xl font-bold hover:bg-gray-200 transition-all shadow-lg"
+            >
+              Let's Talk
+            </motion.button>
+          </div>
         </div>
       </motion.section>
+
+      {/* Benefits Section */}
+      <section className="bg-white text-black py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+            Benefits of Our Branding Services
+          </h2>
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="flex-1 space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-2xl font-semibold">Stand Out from Competition</h3>
+                <p className="text-gray-700">Develop a unique brand identity that sets you apart in your industry and captures your audience's attention.</p>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-2xl font-semibold">Build Trust & Credibility</h3>
+                <p className="text-gray-700">Create a professional image that instills confidence and builds lasting relationships with your customers.</p>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-2xl font-semibold">Increase Brand Value</h3>
+                <p className="text-gray-700">Establish a strong brand presence that adds value to your products or services and commands premium pricing.</p>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-2xl font-semibold">Consistent Brand Experience</h3>
+                <p className="text-gray-700">Deliver a cohesive brand experience across all touchpoints to build recognition and loyalty.</p>
+              </div>
+            </div>
+            <div className="flex-1">
+              <img 
+                src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80"
+                alt="Branding Strategy"
+                className="rounded-lg shadow-xl w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Services Grid */}
       <section ref={ref} className="py-20 px-4">
@@ -50,72 +95,41 @@ const Branding = () => {
             {[
               {
                 icon: Briefcase,
-                title: 'Brand Strategy',
-                description: 'Develop a comprehensive brand strategy that aligns with your business goals and resonates with your target audience.'
+                title: 'Brand Identity & Logo Design',
+                description: 'Create a distinctive visual identity that captures your brand essence through professional logo design and comprehensive brand guidelines.'
               },
               {
                 icon: Target,
-                title: 'Brand Identity',
-                description: 'Create a unique and memorable brand identity including logo design, color palette, typography, and visual elements.'
+                title: 'Brand Positioning & Strategy',
+                description: 'Develop a strategic framework that positions your brand for success and resonates with your target audience.'
               },
               {
                 icon: ChartBar,
-                title: 'Marketing Strategy',
-                description: 'Build data-driven marketing strategies that drive growth and deliver measurable results.'
+                title: 'Marketing Campaigns & Storytelling',
+                description: 'Craft compelling narratives and execute integrated marketing campaigns that bring your brand story to life.'
               },
               {
                 icon: Users,
-                title: 'Brand Positioning',
-                description: 'Position your brand effectively in the market to stand out from competitors and connect with your ideal customers.'
+                title: 'Print & Digital Branding',
+                description: 'Create cohesive brand experiences across all touchpoints, from traditional print materials to digital platforms.'
               }
             ].map((service, index) => (
               <motion.div
                 key={index}
-                initial={{ y: 20, opacity: 0 }}
+                initial={{ y: 30, opacity: 0 }}
                 animate={inView ? { y: 0, opacity: 1 } : {}}
                 whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3)'
+                  scale: 1.02,
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)'
                 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gray-800 p-8 rounded-lg"
+                className="backdrop-blur-lg bg-white/5 p-8 rounded-2xl border border-white/20"
               >
-                <service.icon className="h-12 w-12 mb-4 text-blue-400" />
-                <h3 className="text-xl font-semibold mb-4">{service.title}</h3>
-                <p className="text-gray-400">{service.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="py-20 px-4 bg-gray-800">
-        <div className="max-w-7xl mx-auto">
-          <motion.h2
-            initial={{ y: 20, opacity: 0 }}
-            animate={inView ? { y: 0, opacity: 1 } : {}}
-            className="text-3xl font-bold mb-12 text-center"
-          >
-            Our Process
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { number: '01', title: 'Discovery', description: 'Understanding your business and goals' },
-              { number: '02', title: 'Strategy', description: 'Developing a tailored brand strategy' },
-              { number: '03', title: 'Creation', description: 'Building your brand assets and identity' },
-              { number: '04', title: 'Implementation', description: 'Launching and growing your brand' }
-            ].map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ y: 20, opacity: 0 }}
-                animate={inView ? { y: 0, opacity: 1 } : {}}
-                transition={{ delay: index * 0.2 }}
-                className="text-center"
-              >
-                <div className="text-4xl font-bold text-blue-400 mb-4">{step.number}</div>
-                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                <p className="text-gray-400">{step.description}</p>
+                <service.icon className="h-12 w-12 mb-4 text-white" />
+                <h3 className="text-2xl font-bold mb-4 text-white">
+                  {service.title}
+                </h3>
+                <p className="text-gray-300 text-lg">{service.description}</p>
               </motion.div>
             ))}
           </div>
@@ -123,31 +137,24 @@ const Branding = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
+      <motion.section 
+        className="py-20 px-4 bg-white/5 backdrop-blur-lg"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+      >
         <div className="max-w-4xl mx-auto text-center">
-          <motion.h2
-            initial={{ y: 20, opacity: 0 }}
-            animate={inView ? { y: 0, opacity: 1 } : {}}
-            className="text-3xl font-bold mb-6"
-          >
-            Ready to Transform Your Brand?
-          </motion.h2>
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={inView ? { y: 0, opacity: 1 } : {}}
-            className="text-gray-400 mb-8"
-          >
-            Let's work together to create a brand that makes a lasting impression
-          </motion.p>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+            Let's build your brand's legacy
+          </h2>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-blue-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-blue-600 transition-colors"
+            className="bg-white text-black px-10 py-4 rounded-full text-xl font-bold hover:bg-gray-200 transition-all shadow-lg"
           >
-            Get Started
+            Let's Talk
           </motion.button>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };
