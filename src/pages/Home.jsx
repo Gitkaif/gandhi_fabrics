@@ -4,6 +4,10 @@ import { useInView } from 'react-intersection-observer';
 import { Briefcase, Palette, Share2, Monitor, Megaphone, Video, Users, BarChart2, Settings, Target } from 'lucide-react';
 import fusion from '../assets/fusion-logo.png';
 import { Link } from 'react-router-dom';
+import poster1 from '../assets/poster1.png';
+import poster2 from '../assets/poster2.png';
+import poster3 from '../assets/poster3.png';
+import hero from '../assets/hero.png';
 
 const services = [
   { 
@@ -92,7 +96,7 @@ const Home = () => {
         transition={{ duration: 1 }}
         className="min-h-screen flex items-center justify-center relative"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80")',
+          backgroundImage: `url(${hero})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
@@ -134,7 +138,8 @@ const Home = () => {
         initial={{ opacity: 0, y: 50 }}
         animate={aboutInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
-        className="py-20 px-4 bg-gray-50"
+        className="py-20 px-4" 
+        style={{ backgroundColor: '#F2F0F7' }}
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start gap-12">
@@ -152,24 +157,122 @@ const Home = () => {
               </p>
             </div>
             <div className="lg:w-1/2 flex justify-center items-center mt-14">
-              <motion.img 
-                src={fusion}
+              <img 
+                src={poster1}
                 alt="Fusion Logo" 
-                className="w-100 h-80"
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [-2, 2, -2],
-                }}
-                transition={{
-                  duration: 6,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  transition: { duration: 0.3 }
-                }}
+                className="w-full max-w-md rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
               />
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Our Process Section */}
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="py-20 px-4 bg-white"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            {/* Left Content */}
+            <div className="lg:w-1/3">
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-blue-600">Strategic Planning</h3>
+              <p className="text-gray-600 text-lg mb-6">
+                Our approach begins with thorough market research and analysis. We develop 
+                comprehensive strategies tailored to your unique business needs and goals.
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-center space-x-3">
+                  <span className="text-blue-600">→</span>
+                  <span className="text-gray-700">Market Analysis</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-blue-600">→</span>
+                  <span className="text-gray-700">Competitor Research</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-blue-600">→</span>
+                  <span className="text-gray-700">Strategy Development</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Center Image */}
+            <div className="lg:w-1/3 flex justify-center items-center">
+              <img 
+                src={poster2}
+                alt="Our Process" 
+                className="w-full max-w-md rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+
+            {/* Right Content */}
+            <div className="lg:w-1/3">
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-purple-600">Execution & Results</h3>
+              <p className="text-gray-600 text-lg mb-6">
+                We implement data-driven strategies and continuously optimize our approach 
+                to ensure maximum ROI and sustainable growth for your business.
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-center space-x-3">
+                  <span className="text-purple-600">→</span>
+                  <span className="text-gray-700">Campaign Implementation</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-purple-600">→</span>
+                  <span className="text-gray-700">Performance Tracking</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-purple-600">→</span>
+                  <span className="text-gray-700">Continuous Optimization</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* New Section */}
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="py-20 px-4 bg-white"
+        style={{ backgroundColor: '#F2F0F7' }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            {/* Left Image */}
+            <div className="lg:w-1/3 flex justify-center items-center">
+              <img 
+                src={poster3} 
+                alt="New Section" 
+                className="w-full max-w-md rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+
+            {/* Right Content */}
+            <div className="lg:w-2/3">
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-green-600">New Section Title</h3>
+              <p className="text-gray-600 text-lg mb-6">
+                This section provides an overview of our new offerings and insights into our innovative approaches.
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-600">→</span>
+                  <span className="text-gray-700">Insight 1</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-600">→</span>
+                  <span className="text-gray-700">Insight 2</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-600">→</span>
+                  <span className="text-gray-700">Insight 3</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
