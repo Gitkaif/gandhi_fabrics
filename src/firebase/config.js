@@ -3,16 +3,15 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase configuration from environment variables (Vite)
 const firebaseConfig = {
-    apiKey: "AIzaSyB7dJbPLXKOQpH4BwKTGbBtZOD_dGXWouU",
-    authDomain: "fabric-wholesale.firebaseapp.com",
-    projectId: "fabric-wholesale",
-    storageBucket: "fabric-wholesale.firebasestorage.app",
-    messagingSenderId: "378067463930",
-    appId: "1:378067463930:web:83a709a2d04ef3cdb3e343",
-    measurementId: "G-G533552FTJ"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
