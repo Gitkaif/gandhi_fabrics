@@ -1,247 +1,150 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X, Briefcase, ChevronDown, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import fusion from '../assets/fusion-logo.png';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+// Remove FiMenu and FiX imports as we'll use SVG directly
 
-const services = [
-  { title: 'Branding & Marketing', path: '/services/branding' },
-  { title: 'Social Media & Content', path: '/services/social-media' },
-  { title: 'Graphic Design', path: '/services/design' },
-  { title: 'Event Marketing', path: '/services/events' },
-  { title: 'Website Services', path: '/services/web' },
-  { title: 'OOH & DOOH', path: '/services/advertising' },
-  { title: 'UGC Content', path: '/services/ugc' }
+const navItems = [
+  { name: 'Home', path: 'home', section: 'home' },
+  { name: 'Collections', path: 'collections', section: 'collections' },
+  { name: 'About', path: 'about', section: 'about' },
+  { name: 'Contact', path: 'contact', section: 'contact' },
 ];
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const profileCardRef = useRef(null);
+const Navbar = ({ scrollToSection, aboutRef, contactRef, categoriesRef }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (profileCardRef.current && !profileCardRef.current.contains(event.target)) {
-        const menuButton = document.querySelector('[aria-label="Menu"]');
-        if (!menuButton?.contains(event.target)) {
-          setIsOpen(false);
-        }
-      }
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu when location changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
+
   return (
-    <nav className="fixed w-screen bg-white/90 backdrop-blur-sm z-50 shadow-lg h-20">
-      <div className="lg:w-full sm:max-w-screen px-1">
-        <div className="flex items-center justify-between h-14 md:h-16">
-          {/* Logo - Left */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex items-center space-x-0 pl-3 mt-4">
-              <img src={fusion} alt="Fusion" className="h-36 w-46" />
-            </Link>
-          </div>
+    <header className={`fixed w-full z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/90 backdrop-blur-md shadow-md' 
+        : 'bg-white/80 backdrop-blur-sm'
+    }`}>
+      <nav className="container mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <span className="text-2xl font-bold">
+              Fabric <span className="text-blue-600">Wholesaler</span>
+            </span>
+          </Link>
 
-          {/* Desktop Menu - Centered */}
-          <div className="hidden md:flex items-center justify-center flex-1">
-            <div className="flex items-center space-x-8">
-              <Link to="/" className="text-black hover:text-gray-600 transition-colors whitespace-nowrap font-medium">
-                Home
-              </Link>
-              <div className="relative group">
-                <button
-                  className="text-gray-900 hover:text-gray-600 transition-colors flex items-center space-x-1 whitespace-nowrap font-medium"
-                  onMouseEnter={() => setIsServicesOpen(true)}
-                  onMouseLeave={() => setIsServicesOpen(false)}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => {
+              const handleClick = (e) => {
+                e.preventDefault();
+                if (item.section === 'home') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (item.section === 'collections' && categoriesRef?.current) {
+                  scrollToSection(categoriesRef);
+                } else if (item.section === 'about' && aboutRef?.current) {
+                  scrollToSection(aboutRef);
+                } else if (item.section === 'contact' && contactRef?.current) {
+                  scrollToSection(contactRef);
+                }
+              };
+
+              return (
+                <a
+                  key={item.name}
+                  href={`#${item.section}`}
+                  onClick={handleClick}
+                  className={`relative px-2 py-1 text-sm font-medium transition-colors ${
+                    location.hash === `#${item.section}` || 
+                    (location.pathname === '/' && !location.hash && item.section === 'home')
+                      ? 'text-blue-600'
+                      : 'text-gray-700 hover:text-blue-600'
+                  }`}
                 >
-                  <span>Services</span>
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-                <AnimatePresence>
-                  {isServicesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute left-0 mt-2 w-64 bg-black rounded-lg shadow-xl py-2"
-                      onMouseEnter={() => setIsServicesOpen(true)}
-                      onMouseLeave={() => setIsServicesOpen(false)}
-                    >
-                      {services.map((service, index) => (
-                        <Link
-                          key={index}
-                          to={service.path}
-                          className="block px-4 py-2 text-white hover:bg-gray-800 transition-colors font-medium"
-                          onClick={() => setIsServicesOpen(false)}
-                        >
-                          {service.title}
-                        </Link>
-                      ))}
-                    </motion.div>
+                  {item.name}
+                  {(location.hash === `#${item.section}` || 
+                   (location.pathname === '/' && !location.hash && item.section === 'home')) && (
+                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600"></span>
                   )}
-                </AnimatePresence>
-              </div>
-              <Link to="/about" className="text-gray-900 hover:text-gray-600 transition-colors whitespace-nowrap font-medium">
-                About
-              </Link>
-              <Link to="/contact" className="text-gray-900 hover:text-gray-600 transition-colors whitespace-nowrap font-medium">
-                Contact
-              </Link>
-            </div>
+                </a>
+              );
+            })}
           </div>
 
-          {/* Menu Button - Right with adjusted position */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-3 hover:bg-gray-100 rounded-full transition-colors mr-8"
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none z-50 flex-shrink-0"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <svg 
+              className="w-8 h-8" 
+              fill="none" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth="2" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              {isMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
           </button>
-        </div>
-      </div>
 
-      {/* Mobile Menu Dropdown */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white border-t"
+          {/* Mobile Navigation - positioned relative to the nav (fixed) element */}
+          <div
+            className={`md:hidden absolute left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out ${
+              isMenuOpen ? 'max-h-48 opacity-100 visible' : 'max-h-0 opacity-0 invisible'
+            } overflow-hidden`}
+            style={{ top: '100%' }}
           >
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link
-                to="/"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </Link>
-              
-              {/* Services Dropdown for Mobile */}
-              <div className="relative">
-                <button
-                  className="w-full block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100 flex items-center justify-between"
-                  onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
-                >
-                  <span>Services</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${isMobileServicesOpen ? 'rotate-180' : ''}`} />
-                </button>
-                
-                <AnimatePresence>
-                  {isMobileServicesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="bg-black rounded-md mt-1 overflow-hidden"
-                    >
-                      {services.map((service, index) => (
-                        <Link
-                          key={index}
-                          to={service.path}
-                          className="block px-6 py-2 text-sm text-white hover:bg-gray-800"
-                          onClick={() => {
-                            setIsOpen(false);
-                            setIsMobileServicesOpen(false);
-                          }}
-                        >
-                          {service.title}
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+            <div className="py-4 px-4 space-y-4">
+              {navItems.map((item) => {
+                const handleClick = (e) => {
+                  e.preventDefault();
+                  setIsMenuOpen(false);
+                  if (item.section === 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  } else if (item.section === 'collections' && categoriesRef?.current) {
+                    scrollToSection(categoriesRef);
+                  } else if (item.section === 'about' && aboutRef?.current) {
+                    scrollToSection(aboutRef);
+                  } else if (item.section === 'contact' && contactRef?.current) {
+                    scrollToSection(contactRef);
+                  }
+                };
 
-              <Link
-                to="/about"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
-                onClick={() => setIsOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                to="/contact"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Profile Card Menu - Desktop Only */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={profileCardRef}
-            initial={{ opacity: 0, scale: 0.95, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -20 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-2 top-16 w-96 bg-white rounded-lg shadow-xl z-50 hidden md:block"
-          >
-            <div className="p-8">
-              {/* Company Logo */}
-              <div className="flex justify-center mb-0">
-                <img src={fusion} alt="Fusion" className="h-48 w-auto" />
-              </div>
-              
-              {/* Company Info */}
-              <div className="text-center mb-4">
-                <p className="text-gray-600 text-sm mb-6">
-                  We are a full-service creative agency specializing in helping brands grow fast.
-                  Engage your clients through compelling visuals that do most of the marketing for you.
-                </p>
-              </div>
-
-              {/* Contact Details */}
-              <div className="space-y-4">
-                <a href="mailto:info@fusionmedias.in" 
-                  className="flex items-center space-x-3 text-gray-600 hover:text-gray-900 transition-colors">
-                  <Mail className="h-5 w-5" />
-                  <span className="text-sm">info@fusionmedias.in</span>
-                </a>
-                <a href="tel:+918655625936"
-                  className="flex items-center space-x-3 text-gray-600 hover:text-gray-900 transition-colors">
-                  <Phone className="h-5 w-5" />
-                  <span className="text-sm">+91 86556 25936</span>
-                </a>
-                <div className="flex items-start space-x-3 text-gray-600">
-                  <MapPin className="h-5 w-5 mt-1" />
-                  <span className="text-sm">
-                    2nd floor, Tirupati udyog,<br />
-                    Office No, 208/209, IB Patel Rd,<br />
-                    Goregaon, Mumbai,<br />
-                    Maharashtra 400063
-                  </span>
-                </div>
-              </div>
-
-              {/* Social Links */}
-              <div className="flex justify-center space-x-4 mt-6 pt-6 border-t border-gray-100">
-                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
-                  <motion.a
-                    key={index}
-                    href="#"
-                    whileHover={{ y: -3 }}
-                    className="text-gray-600 hover:text-gray-900 transition-colors"
+                return (
+                  <a 
+                    key={item.name}
+                    href={`#${item.section}`}
+                    onClick={handleClick}
+                    className={`block text-lg ${location.hash === `#${item.section}` || 
+                      (location.pathname === '/' && !location.hash && item.section === 'home')
+                        ? 'text-blue-600 font-medium' 
+                        : 'text-gray-600 hover:text-blue-600'} transition-colors duration-300`}
                   >
-                    <Icon className="h-5 w-5" />
-                  </motion.a>
-                ))}
-              </div>
+                    {item.name}
+                  </a>
+                );
+              })}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+          </div>
+        </div>
+      </nav>
+    </header>
   );
 };
 
